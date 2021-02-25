@@ -1,3 +1,5 @@
 export const PATHS = {
-  widgets: "/",
+  widgets: "/widgets",
+  widgetAdd: "/widget/add",
+  home: "/",
 };

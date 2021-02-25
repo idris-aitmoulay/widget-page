@@ -4,7 +4,7 @@ import React from 'react';
 
 const Widget = () => {
   return (
-    <div>widgets page</div>
+    <div>add Widget</div>
   );
 };
 
