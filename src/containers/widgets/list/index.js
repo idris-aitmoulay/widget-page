@@ -1,8 +1,14 @@
 // @flow
 import React from 'react';
 import { Table, Button, Card, Popconfirm } from 'antd';
-
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import './styles.css';
+import {useInjectReducer} from "../../../shared/store";
+import {key} from "../commun/constants";
+import { makeSelectWidgets } from "../commun/selector";
+import reducer from "../commun/reducer";
 const { Column } = Table;
 
 const data = [
@@ -23,7 +29,8 @@ type Props = {
 }
 
 const Widget = ({ widgets = data }: Props) => {
-
+  console.log(widgets);
+  useInjectReducer({ key, reducer });
   const onDeleteWidget = item => () => {
     // todo: run delete process.
     console.log(item);
@@ -56,4 +63,11 @@ const Widget = ({ widgets = data }: Props) => {
   );
 };
 
-export default Widget;
+
+const mapStateToProps = createStructuredSelector({
+  widgets: makeSelectWidgets(),
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(Widget);

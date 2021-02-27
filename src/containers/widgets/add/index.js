@@ -8,6 +8,7 @@ import { makeField, DropDown } from '../../../shared/components';
 import { steps, tailFormItemLayout, languages } from './constants'
 import { useInjectReducer } from "../../../shared/store";
 import reducer from '../commun/reducer'
+import { key } from '../commun/constants'
 import { putWidget } from '../commun/action'
 import {compose} from "redux";
 import { connect } from 'react-redux';
@@ -24,7 +25,6 @@ const options = _.reduce(
     }, {}
   );
 
-const key: string = 'widgetAddReducer';
 
 type Props = {
   putWidgetAction: Function;
