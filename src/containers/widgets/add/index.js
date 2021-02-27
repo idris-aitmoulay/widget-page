@@ -32,7 +32,7 @@ type Props = {
   valid: boolean;
 };
 
-const AddWidget = ({ handleSubmit, valid, putWidgetAction }: Props) => {
+const AddWidget = ({ handleSubmit, valid, putWidgetAction, reset }: Props) => {
   const [current, setCurrent] = React.useState(0);
 
   useInjectReducer({ key, reducer });
@@ -47,6 +47,7 @@ const AddWidget = ({ handleSubmit, valid, putWidgetAction }: Props) => {
 
   const onSubmit = values => {
     putWidgetAction({ id: cuid() ,...values });
+    reset()
   };
 
   return (
