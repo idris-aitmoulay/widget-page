@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Table, Space, Button, Card, Popconfirm } from 'antd';
+import { Table, Button, Card, Popconfirm } from 'antd';
 
 import './styles.css';
 const { Column } = Table;
@@ -43,13 +43,11 @@ const Widget = ({ widgets = data }: Props) => {
             title="Action"
             key="action"
             render={(item) => (
-              <Space size="middle">
-                <Popconfirm title="Sur to delete ?" onConfirm={onDeleteWidget(item)}>
-                  <Button type="dashed" danger>
-                    Delete
-                  </Button>
-                </Popconfirm>
-              </Space>
+              <Popconfirm title="Sur to delete ?" onConfirm={onDeleteWidget(item)}>
+                <Button type="dashed" danger>
+                  Delete
+                </Button>
+              </Popconfirm>
             )}
           />
         </Table>
