@@ -1,5 +1,5 @@
 // @flow
-import { fromJS } from 'immutable/dist/immutable-nonambient';
+import { fromJS } from 'immutable';
 import {
   CREATE_WIDGET,
   GET_WIDGETS
@@ -9,18 +9,20 @@ const initialState = fromJS({
   widgets: [],
 });
 
-function gasoilReducer(state = initialState, action) {
+function widgetReducer(state = initialState, action) {
   switch (action.type) {
     case GET_WIDGETS: {
       return state.set('widgets', action.payload);
     }
     case CREATE_WIDGET: {
-      return state.set('widgets', [action.payload]);
+      const widgets = state.get('widgets').size === 0 ? [action.payload] : [...state.get('widgets'), action.payload];
+      return state.set('widgets', widgets);
     }
+
 
     default:
       return state;
   }
 }
 
-export default gasoilReducer;
+export default widgetReducer;

@@ -2,9 +2,15 @@
 import React from 'react';
 import { Field, reduxForm } from "redux-form";
 import _ from 'lodash';
+import cuid from 'cuid';
 import { Form, Input, Button, Steps } from "antd";
 import { makeField, DropDown } from '../../../shared/components';
 import { steps, tailFormItemLayout, languages } from './constants'
+import { useInjectReducer } from "../../../shared/store";
+import reducer from '../commun/reducer'
+import { putWidget } from '../commun/action'
+import {compose} from "redux";
+import { connect } from 'react-redux';
 const { Step } = Steps;
 const FormItem = Form.Item;
 const AInput = makeField(Input);
@@ -18,11 +24,18 @@ const options = _.reduce(
     }, {}
   );
 
+const key: string = 'widgetAddReducer';
 
-const AddWidget = props => {
-  const { handleSubmit, valid } = props;
+type Props = {
+  putWidgetAction: Function;
+  handleSubmit: Function;
+  valid: boolean;
+};
 
+const AddWidget = ({ handleSubmit, valid, putWidgetAction }: Props) => {
   const [current, setCurrent] = React.useState(0);
+
+  useInjectReducer({ key, reducer });
 
   const next = () => {
     setCurrent(current + 1);
@@ -33,7 +46,7 @@ const AddWidget = props => {
   };
 
   const onSubmit = values => {
-    console.log(values);
+    putWidgetAction({ id: cuid() ,...values });
   };
 
   return (
@@ -53,8 +66,7 @@ const AddWidget = props => {
       <div hidden={current !== 1}>
         <Field label="name" name="name" component={AInput} placeholder="Name" hasFeedback />
       </div>
-
-      <div className="steps-action">
+      <div>
         <Button hidden={(current === (steps.length - 1))} type="primary" onClick={() => next()}>
           Next
         </Button>
@@ -83,7 +95,16 @@ const validate = values => {
   return errors;
 };
 
-export default reduxForm({
+const mapDispatchToProps = dispatch => ({
+  putWidgetAction: payload => { dispatch(putWidget(payload)); }
+});
+
+
+const withConnect = connect(null, mapDispatchToProps);
+
+export default compose(withConnect)(reduxForm({
   form: "widget-add",
   validate
-})(AddWidget);
+})(AddWidget));
+
+

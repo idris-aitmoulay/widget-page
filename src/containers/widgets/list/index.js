@@ -6,10 +6,10 @@ import './styles.css';
 const { Column } = Table;
 
 const data = [
-  { key: '1', name: 'John', language: 'Brown' },
-  { key: '2', name: 'John dd', language: 'French' },
-  { key: '3', name: 'Johnd', language: 'english' },
-  { key: '4', name: 'Johnff', language: 'germany' }
+  { id: '1', name: 'John', language: 'Brown' },
+  { id: '2', name: 'John dd', language: 'French' },
+  { id: '3', name: 'Johnd', language: 'english' },
+  { id: '4', name: 'Johnff', language: 'germany' }
 ];
 
 type WidgetProps = {

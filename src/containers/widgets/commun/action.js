@@ -3,13 +3,12 @@ import {
   GET_WIDGETS
 } from './constants';
 
-export const createWidget = payload => ({
+export const putWidget = payload => ({
   type: CREATE_WIDGET,
   payload,
 });
 
-export const getWidgets = payload => ({
-  type: GET_WIDGETS,
-  payload,
+export const getWidgets = () => ({
+  type: GET_WIDGETS
 });
 
