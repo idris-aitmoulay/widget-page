@@ -9,14 +9,8 @@ import {useInjectReducer} from "../../../shared/store";
 import {key} from "../commun/constants";
 import { makeSelectWidgets } from "../commun/selector";
 import reducer from "../commun/reducer";
+import {deleteWidget} from "../commun/action";
 const { Column } = Table;
-
-const data = [
-  { id: '1', name: 'John', language: 'Brown' },
-  { id: '2', name: 'John dd', language: 'French' },
-  { id: '3', name: 'Johnd', language: 'english' },
-  { id: '4', name: 'Johnff', language: 'germany' }
-];
 
 type WidgetProps = {
   key: string;
@@ -25,15 +19,15 @@ type WidgetProps = {
 }
 
 type Props = {
-  widgets: WidgetProps[]
+  widgets: WidgetProps[];
+  deleteWidgetAction: Function;
 }
 
-const Widget = ({ widgets = data }: Props) => {
-  console.log(widgets);
+const Widget = ({ widgets, deleteWidgetAction }: Props) => {
   useInjectReducer({ key, reducer });
+
   const onDeleteWidget = item => () => {
-    // todo: run delete process.
-    console.log(item);
+    deleteWidgetAction(item);
   };
 
   return (
@@ -63,11 +57,14 @@ const Widget = ({ widgets = data }: Props) => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  deleteWidgetAction: payload => { dispatch(deleteWidget(payload)); }
+});
 
 const mapStateToProps = createStructuredSelector({
   widgets: makeSelectWidgets(),
 });
 
-const withConnect = connect(mapStateToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(Widget);

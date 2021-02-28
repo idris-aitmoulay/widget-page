@@ -2,7 +2,7 @@
 import { fromJS } from 'immutable';
 import {
   CREATE_WIDGET,
-  GET_WIDGETS
+  DELETE_WIDGET
 } from './constants';
 
 const initialState = fromJS({
@@ -11,15 +11,15 @@ const initialState = fromJS({
 
 function widgetReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_WIDGETS: {
-      return state.set('widgets', action.payload);
-    }
-    case CREATE_WIDGET: {
-      const widgets = state.get('widgets').size === 0 ? [action.payload] : [...state.get('widgets'), action.payload];
+    case DELETE_WIDGET: {
+      const { id: deletedId } = action.payload;
+      const widgets = state.toJS().widgets.filter(({ id }) => id !== deletedId);
       return state.set('widgets', widgets);
     }
-
-
+    case CREATE_WIDGET: {
+      const widgets = state.toJS().widgets;
+      return state.set('widgets', [...widgets, action.payload]);
+    }
     default:
       return state;
   }

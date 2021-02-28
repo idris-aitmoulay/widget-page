@@ -1,6 +1,6 @@
 import {
   CREATE_WIDGET,
-  GET_WIDGETS
+  DELETE_WIDGET
 } from './constants';
 
 export const putWidget = payload => ({
@@ -8,7 +8,8 @@ export const putWidget = payload => ({
   payload,
 });
 
-export const getWidgets = () => ({
-  type: GET_WIDGETS
+export const deleteWidget = payload => ({
+  type: DELETE_WIDGET,
+  payload
 });
 
