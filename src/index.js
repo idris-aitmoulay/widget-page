@@ -7,18 +7,19 @@ import { configureStore } from "./shared/store";
 import { loadFromStorage, saveToStorage, getState$ } from "./core/storage";
 import {filter, map} from "rxjs/operators";
 import _ from 'lodash';
-import {fromJS} from "immutable";
+import { fromJS } from "immutable";
 
-const store = configureStore({ widgetAddReducer: fromJS({ widgets: loadFromStorage() })});
-
+const key = 'widgets';
+const store = configureStore({ widgetAddReducer: fromJS({ [key]: loadFromStorage(key) })});
 getState$(store).pipe(
   map(value => {
     const widgetAddReducer = _.get(value, 'widgetAddReducer', undefined);
-    const widgets = widgetAddReducer ? widgetAddReducer.get('widgets').size !== 0 ? widgetAddReducer.get('widgets') : undefined : undefined;
+    const widgets = widgetAddReducer ? widgetAddReducer.get(key).size !== 0 ? widgetAddReducer.get(key) : undefined : undefined;
     return widgets;
   }),
   filter(item => item)
-).subscribe(saveToStorage);
+).subscribe(saveToStorage(key));
+
 
 ReactDOM.render(
   <Provider store={store}>

@@ -17,6 +17,9 @@ const FormItem = Form.Item;
 const AInput = makeField(Input);
 const ADropDown = makeField(DropDown);
 
+import LanguageFormStep from './language-form';
+import NameFormStep from './name-form';
+
 const options = _.reduce(
   _.keys(languages),
   (cm, cv) => {
@@ -45,55 +48,21 @@ const AddWidget = ({ handleSubmit, valid, putWidgetAction, reset }: Props) => {
     setCurrent(current - 1);
   };
 
-  const onSubmit = values => {
+  const onSubmit = (values, reset) => {
     putWidgetAction({ id: cuid() ,...values });
-    reset()
+    setCurrent(0);
+    if (reset) reset();
   };
 
   return (
-    <form style={{ margin: 40 }} onSubmit={handleSubmit(onSubmit)}>
+    <div style={{ margin: 40 }}>
       <Steps progressDot current={current}>
         {steps.map(({ title }) => <Step title={title} />)}
       </Steps>
-      <div hidden={current !== 0}>
-        <Field
-          component={ADropDown}
-          label="Language"
-          name="language"
-          options={options}
-          hasFeedback
-        />
-      </div>
-      <div hidden={current !== 1}>
-        <Field label="name" name="name" component={AInput} placeholder="Name" hasFeedback />
-      </div>
-      <div>
-        <Button hidden={(current === (steps.length - 1))} type="primary" onClick={() => next()}>
-          Next
-        </Button>
-        <Button hidden={(current === 0)} style={{ margin: '0 8px' }} onClick={() => prev()}>
-          Previous
-        </Button>
-        <FormItem {...tailFormItemLayout}>
-          <Button hidden={(current < (steps.length - 1))} type={'primary'} disabled={!valid} htmlType="submit" style={{ marginRight: "10px" }}>
-            Submit
-          </Button>
-        </FormItem>
-      </div>
-    </form>
+      { current === 0 && <LanguageFormStep onSubmit={next} /> }
+      { current === 1 && <NameFormStep onSubmit={onSubmit} onPrevious={prev}/> }
+    </div>
   );
-};
-
-const validate = values => {
-  const errors = {};
-  if (!values.language) {
-    errors.language = "Required";
-  }
-
-  if (!values.name) {
-    errors.name = "Required";
-  }
-  return errors;
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -103,9 +72,6 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(withConnect)(reduxForm({
-  form: "widget-add",
-  validate
-})(AddWidget));
+export default compose(withConnect)(AddWidget);
 
 

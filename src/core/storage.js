@@ -1,18 +1,18 @@
 import { Observable } from "rxjs";
 
-export const saveToStorage = state => {
+export const saveToStorage = key => state => {
   try {
     const serialisedState = JSON.stringify(state);
-    localStorage.setItem("state", serialisedState);
+    localStorage.setItem(key, serialisedState);
   } catch (e) {
     console.warn(e);
   }
 };
 
-export const loadFromStorage = () => {
+export const loadFromStorage = key => {
   try {
-    const serialisedState = localStorage.getItem("state");
-    if (serialisedState === null) return undefined;
+    const serialisedState = localStorage.getItem(key);
+    if (serialisedState === null) return [];
     return JSON.parse(serialisedState);
   } catch (e) {
     console.warn(e);
@@ -26,5 +26,6 @@ export const getState$ = store => {
     const unsubscribe = store.subscribe(function () {
       observer.next(store.getState());
     });
+    return unsubscribe;
   });
 }
