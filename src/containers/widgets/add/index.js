@@ -2,7 +2,8 @@
 import React from 'react';
 import cuid from 'cuid';
 import { Steps } from "antd";
-import {compose} from "redux";
+import { compose } from "redux";
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { steps } from './constants'
 import { useInjectReducer } from "../../../shared/store";
@@ -11,16 +12,21 @@ import { key } from '../commun/constants'
 import { putWidget } from '../commun/action'
 import LanguageFormStep from './language-form';
 import NameFormStep from './name-form';
+import {PATHS} from "../../../shared/utils/constants";
 
 const { Step } = Steps;
 
+type HistoryProps = {
+  push: Function;
+}
+
 type Props = {
   putWidgetAction: Function;
+  history: HistoryProps;
 };
 
-const AddWidget = ({ putWidgetAction }: Props) => {
+const AddWidget = ({ putWidgetAction, history: { push } }: Props) => {
   const [current, setCurrent] = React.useState(0);
-
   useInjectReducer({ key, reducer });
 
   const next = () => {
@@ -35,6 +41,7 @@ const AddWidget = ({ putWidgetAction }: Props) => {
     putWidgetAction({ id: cuid() ,...values });
     setCurrent(0);
     if (reset) reset();
+    push(PATHS.widgets);
   };
 
   return (
@@ -55,6 +62,6 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(null, mapDispatchToProps);
 
-export default compose(withConnect)(AddWidget);
+export default withRouter(compose(withConnect)(AddWidget));
 
 
