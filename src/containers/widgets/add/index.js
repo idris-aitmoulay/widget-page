@@ -1,41 +1,24 @@
 // @flow
 import React from 'react';
-import { Field, reduxForm } from "redux-form";
-import _ from 'lodash';
 import cuid from 'cuid';
-import { Form, Input, Button, Steps } from "antd";
-import { makeField, DropDown } from '../../../shared/components';
-import { steps, tailFormItemLayout, languages } from './constants'
+import { Steps } from "antd";
+import {compose} from "redux";
+import { connect } from 'react-redux';
+import { steps } from './constants'
 import { useInjectReducer } from "../../../shared/store";
 import reducer from '../commun/reducer'
 import { key } from '../commun/constants'
 import { putWidget } from '../commun/action'
-import {compose} from "redux";
-import { connect } from 'react-redux';
-const { Step } = Steps;
-const FormItem = Form.Item;
-const AInput = makeField(Input);
-const ADropDown = makeField(DropDown);
-
 import LanguageFormStep from './language-form';
 import NameFormStep from './name-form';
 
-const options = _.reduce(
-  _.keys(languages),
-  (cm, cv) => {
-    const { name, localName } = languages[cv];
-    return {...cm, [cv]: `${name}, ${localName}`}
-    }, {}
-  );
-
+const { Step } = Steps;
 
 type Props = {
   putWidgetAction: Function;
-  handleSubmit: Function;
-  valid: boolean;
 };
 
-const AddWidget = ({ handleSubmit, valid, putWidgetAction, reset }: Props) => {
+const AddWidget = ({ putWidgetAction }: Props) => {
   const [current, setCurrent] = React.useState(0);
 
   useInjectReducer({ key, reducer });
