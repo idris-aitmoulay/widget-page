@@ -18,6 +18,7 @@ export default function configure(initialState = {}, history) {
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
   const middlewares = [sagaMiddleware, routerMiddleware(history)];
   const enhancers = [applyMiddleware(...middlewares)];
+  console.log('initialState', initialState);
   const store = createStore(
     createReducer(),
     initialState,

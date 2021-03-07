@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown snap-shoot for DropDown 1`] = `
+<div>
+  <select>
+    <option
+      value="male"
+    >
+      Male
+    </option>
+    <option
+      value="female"
+    >
+      Female
+    </option>
+  </select>
+</div>
+`;
+
+exports[`Dropdown snapShoot for DropDown 1`] = `
+<div>
+  <select>
+    <option
+      value="male"
+    >
+      Male
+    </option>
+    <option
+      value="female"
+    >
+      Female
+    </option>
+  </select>
+</div>
+`;

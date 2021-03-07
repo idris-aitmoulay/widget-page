@@ -14,7 +14,7 @@ const WEBPACK_MODE = {
 };
 
 module.exports = (_, { mode }) => {
-  let devtool = true;
+  let devtool;
 
   if (mode === WEBPACK_MODE.development) {
     devtool = 'source-map';

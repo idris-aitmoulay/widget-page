@@ -24,6 +24,7 @@ export const loadFromStorage = key => {
 export const getState$ = store => {
   return new Observable(function (observer) {
     const unsubscribe = store.subscribe(function () {
+      console.log('state', store.getState());
       observer.next(store.getState());
     });
     return unsubscribe;

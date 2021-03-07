@@ -4,13 +4,12 @@ import { HashRouter as Router } from "react-router-dom";
 import { Provider } from 'react-redux';
 import App from './app';
 import { configureStore } from "./shared/store";
-import { loadFromStorage, saveToStorage, getState$ } from "./core/storage";
+import { saveToStorage, getState$ } from "./core/storage";
 import {filter, map} from "rxjs/operators";
 import _ from 'lodash';
-import { fromJS } from "immutable";
 
 const key = 'widgets';
-const store = configureStore({ widgetAddReducer: fromJS({ [key]: loadFromStorage(key) })});
+const store = configureStore({ });
 getState$(store).pipe(
   map(value => {
     const widgetAddReducer = _.get(value, 'widgetAddReducer', undefined);

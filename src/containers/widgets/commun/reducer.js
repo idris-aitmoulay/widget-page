@@ -4,9 +4,12 @@ import {
   CREATE_WIDGET,
   DELETE_WIDGET
 } from './constants';
+import { loadFromStorage } from "../../../core/storage";
+
+const widgets = loadFromStorage('widgets') || [];
 
 const initialState = fromJS({
-  widgets: [],
+  widgets,
 });
 
 function widgetReducer(state = initialState, action) {

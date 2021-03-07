@@ -28,7 +28,6 @@ export const PrivateRoute = (props: Props) => {
       {...rest}
       render={props => <Component {...props} />}
     />
-
   );
 };
 
